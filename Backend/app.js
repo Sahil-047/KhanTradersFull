@@ -55,4 +55,8 @@ if (require.main === module) {
   });
 }
 
+app.get('/', (req, res) => {
+  res.send('Backend is live');
+});
+
 module.exports = app;

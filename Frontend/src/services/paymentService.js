@@ -1,7 +1,7 @@
 // Payment service for handling payment-related operations
 import authService from './authService.js';
 
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const PAYMENT_API_URL = API_BASE_URL + '/api/payments';
 
 class PaymentService {

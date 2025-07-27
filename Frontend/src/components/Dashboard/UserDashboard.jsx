@@ -500,7 +500,7 @@ const UserDashboard = ({ isDarkMode: initialDarkMode = false, user: initialUser 
   };
 
   return (
-    <div className={`flex flex-col sm:flex-row min-h-screen w-full ${isDarkMode ? 'bg-[#0d172a] text-white' : 'bg-slate-100 text-black'}`}>
+    <div className={`flex flex-col sm:flex-row h-screen w-full ${isDarkMode ? 'bg-[#0d172a] text-white' : 'bg-slate-100 text-black'}`}>
       {/* Sidebar overlay for mobile */}
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-20 sm:hidden" onClick={() => setSidebarOpen(false)}></div>
