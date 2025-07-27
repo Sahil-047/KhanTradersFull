@@ -82,6 +82,7 @@ const UserDashboard = ({ isDarkMode: initialDarkMode = false, user: initialUser 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [bankToDelete, setBankToDelete] = useState(null);
   const [completedPayments, setCompletedPayments] = useState([]);
+  const [investmentPayments, setInvestmentPayments] = useState([]);
   const [currentUser, setCurrentUser] = useState(initialUser);
   // State for add/edit bank account modal
   const [showBankForm, setShowBankForm] = useState(false);
@@ -319,8 +320,31 @@ const UserDashboard = ({ isDarkMode: initialDarkMode = false, user: initialUser 
     setLoading(false);
   };
 
+  const fetchInvestmentPayments = async () => {
+    if (!currentUser) return;
+    
+    const userId = currentUser.id || currentUser._id;
+    if (!userId) {
+      console.warn('No user ID available for fetching completed payments');
+      toast.error('User ID not found. Please refresh the page.');
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      const data = await paymentService.getInvestmentPayments(userId);
+      setInvestmentPayments(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Failed to fetch completed payments:', err);
+      toast.error('Failed to load payment history. Please try again.');
+      setInvestmentPayments([]);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     fetchCompletedPayments();
+    fetchInvestmentPayments();
   }, [currentUser?.id, currentUser?._id]);
 
   // Find the most recent completed payment
@@ -829,6 +853,53 @@ const UserDashboard = ({ isDarkMode: initialDarkMode = false, user: initialUser 
                     </thead>
                     <tbody>
                       {completedPayments.map(payment => (
+                        <tr key={payment._id || payment.id} className="border-t border-[#22304a]">
+                          <td className="px-4 py-2">₹{payment.amount}</td>
+                          <td className="px-4 py-2">{new Date(payment.date).toLocaleDateString()}</td>
+                          <td className="px-4 py-2">{payment.type || '-'}</td>
+                          <td className="px-4 py-2 capitalize">{payment.status}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </section>
+              <section className="mt-10">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-bold">Investment History</h2>
+                  <button 
+                    onClick={() => {
+                      const userId = currentUser.id || currentUser._id;
+                      if (userId) {
+                        fetchInvestmentPayments();
+                      }
+                    }}
+                    className="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold"
+                  >
+                    Refresh
+                  </button>
+                </div>
+                {loading ? (
+                  <div className={`bg-[#101c34] border border-[#22304a] rounded-xl p-4 text-center text-slate-400 ${isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-slate-300 text-black'}`}>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-400 mx-auto mb-2"></div>
+                    Loading Investment history...
+                  </div>
+                ) : investmentPayments.length === 0 ? (
+                  <div className={`bg-[#101c34] border border-[#22304a] rounded-xl p-4 text-center text-slate-400 ${isDarkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-slate-300 text-black'}`}>
+                    No investments found.
+                  </div>
+                ) : (
+                  <table className={`min-w-full rounded-xl border shadow-lg ${isDarkMode ? 'border-[#22304a] bg-[#101c34] text-white' : 'border-black bg-white text-black'}`}>
+                    <thead>
+                      <tr>
+                        <th className="px-4 py-2 text-left">Amount</th>
+                        <th className="px-4 py-2 text-left">Date</th>
+                        <th className="px-4 py-2 text-left">Type</th>
+                        <th className="px-4 py-2 text-left">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {investmentPayments.map(payment => (
                         <tr key={payment._id || payment.id} className="border-t border-[#22304a]">
                           <td className="px-4 py-2">₹{payment.amount}</td>
                           <td className="px-4 py-2">{new Date(payment.date).toLocaleDateString()}</td>

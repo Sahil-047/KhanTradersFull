@@ -62,7 +62,17 @@ class PaymentService {
   async getCompletedPayments(userId) {
     try {
       const allPayments = await this.getPaymentsByUser(userId);
-      return allPayments.filter(p => p.status === 'completed');
+      return allPayments.filter(p => (p.status === 'completed' && p.type !== 'investment'));
+    } catch (error) {
+      console.error('Error fetching completed payments:', error);
+      throw new Error('Failed to fetch completed payments');
+    }
+  }
+
+  async getInvestmentPayments(userId) {
+    try {
+      const allPayments = await this.getPaymentsByUser(userId);
+      return allPayments.filter(p => p.type === 'investment');
     } catch (error) {
       console.error('Error fetching completed payments:', error);
       throw new Error('Failed to fetch completed payments');

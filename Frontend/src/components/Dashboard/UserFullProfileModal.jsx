@@ -305,8 +305,9 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
     { id: 'TXN002', amount: '₹3,000', date: '2024-01-10', status: 'Pending' },
   ];
 
-  const withdrawalPayments = payments.filter(p => p.status === 'completed');
+  const withdrawalPayments = payments.filter(p => (p.status === 'completed' && p.type!== 'investment'));
   const upcomingPayments = payments.filter(p => p.status === 'pending');
+  const investmentPayments = payments.filter(p => p.type === 'investment');
 
   const getBankDetails = (userData) => {
     if (Array.isArray(userData.bank_details)) {
@@ -460,19 +461,34 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
             >
               <FaClock /> Upcoming Payment Details
             </button>
+            <button onClick={() => setActiveTab('investment')}
+              className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold transition-colors shadow-sm
+                ${activeTab === 'investment'
+                  ? (isDarkMode ? 'bg-blue-600 text-white shadow-md' : 'bg-blue-200 text-blue-900 shadow-md')
+                  : (isDarkMode ? 'bg-slate-700 text-slate-300' : 'bg-slate-200 text-slate-700')}`}
+            >
+              <FaClock /> Investment
+            </button>
           </div>
 
           {/* Table Section: withdrawal */}
           {activeTab === 'withdrawal' && (
             <div className="overflow-x-auto">
-              <table className={`min-w-full text-xs sm:text-sm ${isDarkMode ? 'bg-[#101c34] text-white' : 'bg-white text-black'}`}>
+              <table className={`min-w-full table-fixed text-xs sm:text-sm ${isDarkMode ? 'bg-[#101c34] text-white' : 'bg-white text-black'}`}>
+                <colgroup>
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                </colgroup>
                 <thead>
                   <tr className={`${isDarkMode ? 'text-slate-400' : 'text-slate-700'}`}> 
-                    <th className="px-2 sm:px-3 py-2">Transaction ID</th>
-                    <th className="px-2 sm:px-3 py-2">Amount</th>
-                    <th className="px-2 sm:px-3 py-2">Date</th>
-                    <th className="px-2 sm:px-3 py-2">Status</th>
-                    <th className="px-2 sm:px-3 py-2">Actions</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Transaction ID</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Amount</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Date</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Status</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -602,14 +618,21 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
           {/* Table Section: upcoming */}
           {activeTab === 'upcoming' && (
             <div className="overflow-x-auto">
-              <table className={`min-w-full text-xs sm:text-sm ${isDarkMode ? 'bg-[#101c34] text-white' : 'bg-white text-black'}`}>
+              <table className={`min-w-full table-fixed text-xs sm:text-sm ${isDarkMode ? 'bg-[#101c34] text-white' : 'bg-white text-black'}`}>
+                <colgroup>
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                </colgroup>
                 <thead>
                   <tr className={`${isDarkMode ? 'text-slate-400' : 'text-slate-700'}`}> 
-                    <th className="px-2 sm:px-3 py-2">Transaction ID</th>
-                    <th className="px-2 sm:px-3 py-2">Amount</th>
-                    <th className="px-2 sm:px-3 py-2">Date</th>
-                    <th className="px-2 sm:px-3 py-2">Status</th>
-                    <th className="px-2 sm:px-3 py-2">Actions</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Transaction ID</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Amount</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Date</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Status</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -626,6 +649,150 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                     </tr>
                   ) : (
                     upcomingPayments.map((txn) => {
+                      const paymentId = txn._id || txn.id;
+                      return editingPaymentId === paymentId ? (
+                        <tr key={paymentId} className={`${isDarkMode ? 'border-t border-[#22304a] bg-[#172447]' : 'border-t border-slate-300 bg-slate-100'}`}>
+                          <td className="px-2 sm:px-3 py-2 font-mono text-blue-300">{(txn.type || paymentId).toString().slice(-6)}</td>
+                          <td className="px-2 sm:px-3 py-2">
+                            <input
+                              type="number"
+                              value={editForm.amount}
+                              onChange={e => setEditForm({ ...editForm, amount: e.target.value })}
+                              className={`rounded px-2 py-1 w-20 ${isDarkMode ? 'bg-[#101c34] border-[#22304a] text-white' : 'bg-white border-slate-300 text-black'} border`}
+                            />
+                          </td>
+                          <td className="px-2 sm:px-3 py-2">
+                            <input
+                              type="date"
+                              value={editForm.date}
+                              onChange={e => setEditForm({ ...editForm, date: e.target.value })}
+                              className={`rounded px-2 py-1 ${isDarkMode ? 'bg-[#101c34] border-[#22304a] text-white' : 'bg-white border-slate-300 text-black'} border`}
+                            />
+                          </td>
+                          <td className="px-2 sm:px-3 py-2">
+                            <select
+                              value={editForm.status}
+                              onChange={e => setEditForm({ ...editForm, status: e.target.value })}
+                              className={`rounded px-2 py-1 ${isDarkMode ? 'bg-[#101c34] border-[#22304a] text-white' : 'bg-white border-slate-300 text-black'} border`}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="scheduled">Scheduled</option>
+                              <option value="completed">Completed</option>
+                              <option value="failed">Failed</option>
+                            </select>
+                          </td>
+                          <td className="px-2 sm:px-3 py-2 flex gap-1 sm:gap-2">
+                            <button
+                              className={`p-1 rounded ${isDarkMode ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-green-200 hover:bg-green-300 text-green-900'} text-xs transition-colors`}
+                              onClick={async () => {
+                                try {
+                                  const updated = await paymentService.updatePayment(paymentId, {
+                                    amount: Number(editForm.amount),
+                                    date: editForm.date,
+                                    status: editForm.status,
+                                    type: txn.type,
+                                    user_id: txn.user_id || userData.id || userData._id,
+                                  });
+                                  setPayments((prev) =>
+                                    prev.map((p) => ((p._id || p.id) === paymentId ? { ...p, ...updated } : p))
+                                  );
+                                  setEditingPaymentId(null);
+                                  toast.success('Payment updated!');
+                                } catch (err) {
+                                  toast.error('Failed to update payment: ' + err.message);
+                                }
+                              }}
+                            >
+                              <FaCheck className="text-xs" />
+                            </button>
+                            <button
+                              className={`p-1 rounded ${isDarkMode ? 'bg-gray-600 hover:bg-gray-700 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'} text-xs transition-colors`}
+                              onClick={() => setEditingPaymentId(null)}
+                            >
+                              <FaTimes className="text-xs" />
+                            </button>
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr key={paymentId} className={`border-t ${isDarkMode ? 'border-[#22304a] hover:bg-[#18294a]' : 'border-slate-300 hover:bg-slate-100'}` + (editingPaymentId === paymentId ? (isDarkMode ? ' ring-2 ring-blue-400' : ' ring-2 ring-blue-300') : '')}>
+                          <td className="px-2 sm:px-3 py-2 font-mono break-all">{txn.type || paymentId.toString().slice(-6)}</td>
+                          <td className="px-2 sm:px-3 py-2 font-mono">₹{txn.amount}</td>
+                          <td className="px-2 sm:px-3 py-2">{new Date(txn.date).toLocaleDateString()}</td>
+                          <td className="px-2 sm:px-3 py-2">
+                            <span className={`px-2 py-1 rounded-full text-xs font-bold
+                              ${txn.status === 'completed'
+                                ? (isDarkMode ? 'bg-green-700 text-green-200' : 'bg-green-200 text-green-900')
+                                : txn.status === 'pending'
+                                ? (isDarkMode ? 'bg-yellow-700 text-yellow-200' : 'bg-yellow-200 text-yellow-900')
+                                : (isDarkMode ? 'bg-slate-700 text-slate-300' : 'bg-slate-200 text-slate-700')
+                              }`}>
+                              {txn.status}
+                            </span>
+                          </td>
+                          <td className="px-2 sm:px-3 py-2 flex gap-1 sm:gap-2">
+                            <button
+                              className={`p-1 rounded ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-200 hover:bg-blue-300 text-blue-900'} text-xs transition-colors`}
+                              onClick={() => {
+                                setEditingPaymentId(paymentId);
+                                setEditForm({
+                                  amount: txn.amount,
+                                  date: txn.date ? txn.date.slice(0, 10) : '',
+                                  status: txn.status,
+                                });
+                              }}
+                            >
+                              <FaEdit className="text-xs" />
+                            </button>
+                            <button
+                              className={`p-1 rounded ${isDarkMode ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-red-200 hover:bg-red-300 text-red-900'} text-xs transition-colors`}
+                              onClick={() => { setPaymentToDelete(txn); setShowDeleteModal(true); }}
+                            >
+                              <FaTrash className="text-xs" />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Table Section: investment */}
+          {activeTab === 'investment' && (
+            <div className="overflow-x-auto">
+              <table className={`min-w-full table-fixed text-xs sm:text-sm ${isDarkMode ? 'bg-[#101c34] text-white' : 'bg-white text-black'}`}>
+                <colgroup>
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                </colgroup>
+                <thead>
+                  <tr className={`${isDarkMode ? 'text-slate-400' : 'text-slate-700'}`}> 
+                    <th className="px-2 sm:px-3 py-2 text-left">Transaction ID</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Amount</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Date</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Status</th>
+                    <th className="px-2 sm:px-3 py-2 text-left">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paymentsLoading ? (
+                    <tr>
+                      <td colSpan={5} className="text-center">Loading...</td>
+                    </tr>
+                  ) : investmentPayments.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className={`text-center py-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-700'}`}>
+                        <FaRegFileAlt className={`mx-auto mb-2 text-2xl ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`} />
+                        No transactions found.
+                      </td>
+                    </tr>
+                  ) : (
+                    investmentPayments.map((txn) => {
                       const paymentId = txn._id || txn.id;
                       return editingPaymentId === paymentId ? (
                         <tr key={paymentId} className={`${isDarkMode ? 'border-t border-[#22304a] bg-[#172447]' : 'border-t border-slate-300 bg-slate-100'}`}>
@@ -780,6 +947,7 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                       <option value="withdrawal">Withdrawal</option>
                       <option value="premium">Premium</option>
                       <option value="upcoming">Upcoming Payment</option>
+                      <option value="investment">Investment</option>
                     </select>
                   </div>
                   <div>
