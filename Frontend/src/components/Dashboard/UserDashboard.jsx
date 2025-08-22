@@ -400,6 +400,12 @@ const UserDashboard = ({ isDarkMode: initialDarkMode = false, user: initialUser 
               >
                 <FaEdit /> Edit
               </button>
+              <button
+                className="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold"
+                onClick={() => handleDeleteBank(bank.bank_id || bank._id)}
+              >
+                <FaTrash /> Delete
+              </button>
             </div>
           </div>
         ))}
@@ -696,6 +702,12 @@ const UserDashboard = ({ isDarkMode: initialDarkMode = false, user: initialUser 
                       <div><span className="font-bold">Branch:</span> <span>{bank.branch}</span></div>
                       <div className="flex gap-2 mt-3">
                         <button className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold" onClick={() => handleOpenEditBank(idx)}>Edit</button>
+                        <button
+                          className="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white font-semibold"
+                          onClick={() => handleDeleteBank(bank.bank_id || bank._id)}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   ))

@@ -122,8 +122,11 @@ export async function updateBank(bankId, bankData) {
   return response.data;
 }
 
-// All deleteBank references commented out below
-// deleteBank(...)
+// deleteBank
+export async function deleteBank(bankId) {
+  const response = await api.delete(`/api/banks/${bankId}`);
+  return response.data;
+}
 
 // Get all users (admin only)
 export async function getAllUsers() {
@@ -188,7 +191,7 @@ export default {
   updateProfile,
   createBank,
   updateBank,
-  // deleteBank,
+  deleteBank,
   getAllUsers,
   getUserBanks,
   updatePremiumStatus,

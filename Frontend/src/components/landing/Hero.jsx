@@ -108,10 +108,17 @@ const Hero = ({ isDarkMode }) => (
           className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-12"
         >
           <a
-            href="#premium"
+            href="#pricing"
             className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-3 rounded-md text-sm font-semibold transition-colors shadow-sm"
+            onClick={e => {
+              e.preventDefault();
+              const section = document.getElementById('pricing');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
           >
-            Get Premium Access
+            Get Started Now
           </a>
           <a
             href="#about"
