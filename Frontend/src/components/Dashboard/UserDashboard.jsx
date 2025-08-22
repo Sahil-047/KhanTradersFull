@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AuthService from '../../services/authService';
 import paymentService from '../../services/paymentService';
 import { toast } from "sonner";
@@ -11,33 +11,38 @@ import ChangePassword from '../Auth/ResetPassword';
 // Sidebar subcomponent
 function Sidebar({ active, setActive, user, isDarkMode, sidebarOpen, setSidebarOpen }) {
   return (
-    <aside className={`fixed z-30 top-0 left-0 h-full w-60 sm:w-60 md:w-60 lg:w-60 xl:w-60 ${isDarkMode ? 'bg-[#101c34] border-[#22304a] text-white' : 'bg-white border-slate-300 text-black'} border-r flex flex-col py-6 px-4 transition-transform duration-300 ease-in-out transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} sm:relative sm:translate-x-0`}>
-      <div className="mb-8">
-        <div className={`text-lg font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>Navigation</div>
-        <div className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Welcome, {user?.name || 'User'}</div>
+    <aside className={`fixed z-30 top-0 left-0 h-full w-60 sm:w-60 md:w-60 lg:w-60 xl:w-60 ${isDarkMode ? 'bg-[#101c34] border-[#22304a] text-white' : 'bg-white border-slate-300 text-black'} border-r flex flex-col justify-between py-6 px-4 transition-transform duration-300 ease-in-out transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} sm:relative sm:translate-x-0`}>
+      <div>
+        <div className="mb-8">
+          <div className={`text-lg font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>Navigation</div>
+          <div className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Welcome, {user?.name || 'User'}</div>
+        </div>
+        <nav className="flex flex-col gap-2">
+          <button onClick={() => { setActive('dashboard'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium ${active==='dashboard' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-700') : (isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-black hover:bg-slate-200')}`}><FaThLarge /> Dashboard</button>
+          <button onClick={() => { setActive('profile'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium ${active==='profile' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-700') : (isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-black hover:bg-slate-200')}`}><FaUser /> Profile</button>
+          <button onClick={() => { setActive('payment'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium ${active==='payment' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-700') : (isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-black hover:bg-slate-200')}`}><FaCreditCard /> Payment Info</button>
+          {/* WhatsApp Group Button - Only for Premium Members */}
+          {(user?.is_premium || user?.isPremium) && (
+            <a
+              href="https://chat.whatsapp.com/FatUrVFnICC5ZTnXl1rueq?mode=ac_t"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-3 px-3 py-2 mt-2 rounded-lg text-sm font-semibold justify-center transition-colors
+                ${isDarkMode
+                  ? 'bg-[#25D366] hover:bg-[#1ebe5d] text-[#101c34]'
+                  : 'bg-[#25D366] hover:bg-[#1ebe5d] text-white'}
+              `}
+              style={{ boxShadow: isDarkMode ? '0 2px 8px #101c34' : '0 2px 8px #25D366' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" className="w-5 h-5"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.646.86 5.09 2.33 7.09L4.06 29.25a1 1 0 0 0 1.25 1.25l7.16-2.27A12.94 12.94 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.77 0-3.47-.36-5.01-1.01l-.36-.15-4.25 1.35 1.36-4.18-.18-.37A9.97 9.97 0 0 1 6 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.29-7.71c-.29-.15-1.71-.84-1.97-.94-.26-.1-.45-.15-.64.15-.19.29-.74.94-.91 1.13-.17.19-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.43-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.48-.64-.49-.16-.01-.36-.01-.56-.01-.19 0-.51.07-.78.36-.27.29-1.03 1.01-1.03 2.46 0 1.45 1.06 2.85 1.21 3.05.15.19 2.09 3.19 5.07 4.35.71.31 1.26.5 1.69.64.71.23 1.36.2 1.87.12.57-.09 1.71-.7 1.95-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.19-.55-.34z"/></svg>
+              Join WhatsApp Group
+            </a>
+          )}
+        </nav>
       </div>
-      <nav className="flex flex-col gap-2">
-        <button onClick={() => { setActive('dashboard'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium ${active==='dashboard' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-700') : (isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-black hover:bg-slate-200')}`}><FaThLarge /> Dashboard</button>
-        <button onClick={() => { setActive('profile'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium ${active==='profile' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-700') : (isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-black hover:bg-slate-200')}`}><FaUser /> Profile</button>
-        <button onClick={() => { setActive('payment'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium ${active==='payment' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-700') : (isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-black hover:bg-slate-200')}`}><FaCreditCard /> Payment Info</button>
-        {/* WhatsApp Group Button - Only for Premium Members */}
-        {(user?.is_premium || user?.isPremium) && (
-          <a
-            href="https://chat.whatsapp.com/FatUrVFnICC5ZTnXl1rueq?mode=ac_t"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`flex items-center gap-3 px-3 py-2 mt-2 rounded-lg text-sm font-semibold justify-center transition-colors
-              ${isDarkMode
-                ? 'bg-[#25D366] hover:bg-[#1ebe5d] text-[#101c34]'
-                : 'bg-[#25D366] hover:bg-[#1ebe5d] text-white'}
-            `}
-            style={{ boxShadow: isDarkMode ? '0 2px 8px #101c34' : '0 2px 8px #25D366' }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" className="w-5 h-5"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.646.86 5.09 2.33 7.09L4.06 29.25a1 1 0 0 0 1.25 1.25l7.16-2.27A12.94 12.94 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.77 0-3.47-.36-5.01-1.01l-.36-.15-4.25 1.35 1.36-4.18-.18-.37A9.97 9.97 0 0 1 6 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.29-7.71c-.29-.15-1.71-.84-1.97-.94-.26-.1-.45-.15-.64.15-.19.29-.74.94-.91 1.13-.17.19-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.43-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.48-.64-.49-.16-.01-.36-.01-.56-.01-.19 0-.51.07-.78.36-.27.29-1.03 1.01-1.03 2.46 0 1.45 1.06 2.85 1.21 3.05.15.19 2.09 3.19 5.07 4.35.71.31 1.26.5 1.69.64.71.23 1.36.2 1.87.12.57-.09 1.71-.7 1.95-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.19-.55-.34z"/></svg>
-            Join WhatsApp Group
-          </a>
-        )}
-      </nav>
+      <div className={`w-full text-center text-sm pt-2 pb-3 border-t flex justify-start pl-1 ${isDarkMode ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600'}`}>
+        Developed by<Link to="https://asthetcss.in" target="_blank" className="underline hover:text-blue-400 pl-1">AsthetCSS</Link>
+      </div>
     </aside>
   );
 }

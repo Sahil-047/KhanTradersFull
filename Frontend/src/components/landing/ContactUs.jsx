@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const ContactUs = ({ isDarkMode }) => {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
@@ -16,12 +17,9 @@ const ContactUs = ({ isDarkMode }) => {
     setSuccess('');
     setError('');
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+      const res = await axios.post('https://api.khantrader.in/api/contact', form, {
+        headers: { 'Content-Type': 'application/json' }
       });
-      if (!res.ok) throw new Error('Failed to send message');
       setSuccess('Your message has been sent! We will get back to you soon.');
       setForm({ name: '', email: '', phone: '', message: '' });
     } catch (err) {

@@ -75,8 +75,13 @@ const Footer = ({ isDarkMode }) => {
           </div>
         </div>
       </div>
-      <div className={`w-full text-center text-xs pt-2 pb-3 border-t ${isDarkMode ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600'}`}>
+      <div className="flex">
+      <div className={`w-full text-center text-sm pt-2 pb-3 border-t flex justify-end ${isDarkMode ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600'}`}>
         &copy; 2025 Khan Trading World. All rights reserved.
+      </div>
+      <div className={`w-full text-center text-sm pt-2 pb-3 border-t flex justify-start pl-1 ${isDarkMode ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600'}`}>
+         Developed by<Link to="https://asthetcss.in" target="_blank" className="underline hover:text-blue-400 pl-1">AsthetCSS</Link>
+      </div>
       </div>
     </footer>
   );
