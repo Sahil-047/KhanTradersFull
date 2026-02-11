@@ -93,7 +93,7 @@ export const reviews = [
     name: "Vikram Mehta",
     role: "Business Owner",
     rating: 5,
-    review: "Managing 50cr+ funds shows their expertise. I've seen consistent returns month after month. Trustworthy and transparent.",
+    review: "Managing 235cr+ funds shows their expertise. I've seen consistent returns month after month. Trustworthy and transparent.",
     avatar: "VM"
   },
   {

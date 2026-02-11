@@ -11,7 +11,7 @@ const Achievements = ({ isDarkMode }) => (
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4 sm:gap-x-8 text-center">
         <div>
-          <div className={`font-extrabold text-2xl sm:text-1xl mb-1 transition-colors ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>₹50Cr+</div>
+          <div className={`font-extrabold text-2xl sm:text-1xl mb-1 transition-colors ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>₹235Cr+</div>
           <div className={`text-xs sm:text-sm transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Funds Managed</div>
         </div>
         <div>
@@ -23,7 +23,7 @@ const Achievements = ({ isDarkMode }) => (
           <div className={`text-xs sm:text-sm transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Tip Accuracy</div>
         </div>
         <div>
-          <div className={`font-extrabold text-2xl sm:text-1xl mb-1 transition-colors ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>1000+</div>
+          <div className={`font-extrabold text-2xl sm:text-1xl mb-1 transition-colors ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>23000+</div>
           <div className={`text-xs sm:text-sm transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Happy Clients</div>
         </div>
       </div>

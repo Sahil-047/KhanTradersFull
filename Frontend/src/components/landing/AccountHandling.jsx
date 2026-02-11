@@ -41,7 +41,7 @@ const features = [
 
 const highlights = [
   { label: 'Monthly Returns', value: '6%', color: 'text-green-500' },
-  { label: 'Funds Managed', value: '₹50Cr+', color: 'text-blue-500' },
+  { label: 'Funds Managed', value: '₹235Cr+', color: 'text-blue-500' },
 ];
 
 const included = [

@@ -132,7 +132,7 @@ const Hero = ({ isDarkMode }) => (
           className="flex flex-col sm:flex-row justify-center lg:justify-start gap-24 mt-2"
         >
           <div className="text-center">
-            <div className="text-base sm:text-lg font-bold text-blue-600">1000+</div>
+            <div className="text-base sm:text-lg font-bold text-blue-600">23000+</div>
             <div className={`mt-1 text-xs sm:text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Happy Clients</div>
           </div>
           <div className="text-center">

@@ -43,7 +43,7 @@ const About = ({ isDarkMode }) => (
             <div className="text-lg font-semibold text-yellow-500 mb-2">CEO & Fund Manager</div>
             <div className="flex flex-wrap justify-center gap-2 mt-2">
               <span className={`text-xs font-semibold px-3 py-1 rounded-full transition-colors ${isDarkMode ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-700'}`}>7+ Years Experience</span>
-              <span className={`text-xs font-semibold px-3 py-1 rounded-full transition-colors ${isDarkMode ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-700'}`}>₹50Cr+ Managed</span>
+              <span className={`text-xs font-semibold px-3 py-1 rounded-full transition-colors ${isDarkMode ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-700'}`}>₹235Cr+ Managed</span>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@ const About = ({ isDarkMode }) => (
               <span className="mt-1 w-3 h-3 rounded-full bg-blue-400 inline-block"></span>
               <div>
                 <div className={`font-semibold text-sm transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Professional Fund Management</div>
-                <div className={`text-xs transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Managing over ₹50 Crores in client funds with proven expertise and dedication</div>
+                <div className={`text-xs transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Managing over ₹235 Crores in client funds with proven expertise and dedication</div>
               </div>
             </li>
             <li className="flex items-start gap-3">

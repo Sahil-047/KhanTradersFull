@@ -20,7 +20,7 @@ const Footer = ({ isDarkMode }) => {
   };
   return (
     <footer className={`w-full transition-colors ${isDarkMode ? 'bg-[#101c2b]' : 'bg-slate-100'}`}>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 py-10 px-4 sm:px-6 lg:px-8">
         {/* Left: Logo, Name, Description, Socials */}
         <div className="flex flex-col gap-3 min-w-[250px]">
           <div className="flex items-center gap-3 mb-1">
@@ -72,6 +72,13 @@ const Footer = ({ isDarkMode }) => {
           <div className={`text-sm ${isDarkMode ? 'text-white' : 'text-slate-700'}`}> 
             <span className="font-semibold">SMS & Call Support:</span><br />
             <span>For queries and updates</span>
+          </div>
+        </div>
+        {/* Fourth Column: Landmark */}
+        <div className="flex flex-col gap-2 min-w-[200px]">
+          <div className={`font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Landmark</div>
+          <div className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+            Kusumgram, Purba Bardhaman
           </div>
         </div>
       </div>
