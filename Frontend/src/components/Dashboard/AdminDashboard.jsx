@@ -7,7 +7,7 @@ import {
   FaShieldAlt,
 } from 'react-icons/fa';
 import { FiSun, FiMoon } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import UserFullProfileModal from './UserFullProfileModal';
 import AuthService from '../../services/authService';
 import { toast } from 'sonner';
@@ -102,20 +102,26 @@ const AdminDashboard = ({ user: adminUser }) => {
   const panelBg = isDarkMode ? 'bg-[#101c34] border-[#22304a]' : 'bg-white border-slate-300';
 
   return (
+    <>
     <div className={`flex flex-col lg:flex-row min-h-screen ${baseBg} ${baseText}`}>
-      <aside className={`fixed z-40 top-0 left-0 h-full w-64 ${panelBg} p-6 transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
-        <div className="flex items-center gap-3 mb-10">
-          <FaShieldAlt className="text-blue-400 text-2xl" />
-          <span className="text-2xl font-bold tracking-wide">Admin Panel</span>
+      <aside className={`fixed z-40 top-0 left-0 h-full w-64 ${panelBg} p-6 transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 flex flex-col justify-between`}>
+        <div>
+          <div className="flex items-center gap-3 mb-10">
+            <FaShieldAlt className="text-blue-400 text-2xl" />
+            <span className="text-2xl font-bold tracking-wide">Admin Panel</span>
+          </div>
+          <nav className="flex flex-col gap-3">
+            <button onClick={() => { setActiveTab('dashboard'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-base font-medium ${activeTab === 'dashboard' ? 'bg-blue-600 text-white' : isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-slate-700 hover:bg-slate-200'}`}>
+              <FaTachometerAlt /> Dashboard
+            </button>
+            <button onClick={() => { setActiveTab('users'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-base font-medium ${activeTab === 'users' ? 'bg-blue-600 text-white' : isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-slate-700 hover:bg-slate-200'}`}>
+              <FaUsers /> Users
+            </button>
+          </nav>
         </div>
-        <nav className="flex flex-col gap-3">
-          <button onClick={() => { setActiveTab('dashboard'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-base font-medium ${activeTab === 'dashboard' ? 'bg-blue-600 text-white' : isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-slate-700 hover:bg-slate-200'}`}>
-            <FaTachometerAlt /> Dashboard
-          </button>
-          <button onClick={() => { setActiveTab('users'); setSidebarOpen(false); }} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-base font-medium ${activeTab === 'users' ? 'bg-blue-600 text-white' : isDarkMode ? 'text-slate-300 hover:bg-[#172447]' : 'text-slate-700 hover:bg-slate-200'}`}>
-            <FaUsers /> Users
-          </button>
-        </nav>
+        <div className={`w-full text-center text-sm pt-2 pb-3 border-t flex justify-start pl-1 ${isDarkMode ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600'}`}>
+          Developed by<Link to="https://asthetcss.in" target="_blank" className="underline hover:text-blue-400 pl-1">AsthetCSS</Link>
+        </div>
       </aside>
 
       {sidebarOpen && (
@@ -248,6 +254,7 @@ const AdminDashboard = ({ user: adminUser }) => {
         />
       )}
     </div>
+    </>
   );
 };
 

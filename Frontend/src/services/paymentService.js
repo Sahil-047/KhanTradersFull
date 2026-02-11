@@ -69,6 +69,16 @@ class PaymentService {
     }
   }
 
+  async getFailedPayments(userId) {
+    try {
+      const allPayments = await this.getPaymentsByUser(userId);
+      return allPayments.filter(p => (p.status === 'failed'));
+    } catch (error) {
+      console.error('Error fetching failed payments:', error);
+      throw new Error('Failed to fetch failed payments');
+    }
+  }
+
   async getInvestmentPayments(userId) {
     try {
       const allPayments = await this.getPaymentsByUser(userId);

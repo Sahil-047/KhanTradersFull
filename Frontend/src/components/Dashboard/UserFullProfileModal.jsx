@@ -300,14 +300,10 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
     }
   };
 
-  const withdrawalTransactions = [
-    { id: 'TXN001', amount: '₹5,000', date: '2024-01-15', status: 'Completed' },
-    { id: 'TXN002', amount: '₹3,000', date: '2024-01-10', status: 'Pending' },
-  ];
 
-  const withdrawalPayments = payments.filter(p => (p.status === 'completed' && p.type!== 'investment'));
-  const upcomingPayments = payments.filter(p => p.status === 'pending');
-  const investmentPayments = payments.filter(p => p.type === 'investment');
+  const withdrawalPayments = payments.filter(p => (p.type=== 'withdrawal'));
+  const upcomingPayments = payments.filter(p => (p.type=== 'upcoming'));
+  const investmentPayments = payments.filter(p => (p.type=== 'investment'));
 
   const getBankDetails = (userData) => {
     if (Array.isArray(userData.bank_details)) {
@@ -532,7 +528,7 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                               className={`rounded px-2 py-1 ${isDarkMode ? 'bg-[#101c34] border-[#22304a] text-white' : 'bg-white border-slate-300 text-black'} border`}
                             >
                               <option value="pending">Pending</option>
-                              <option value="scheduled">Scheduled</option>
+                              {/* <option value="scheduled">Scheduled</option> */}
                               <option value="completed">Completed</option>
                               <option value="failed">Failed</option>
                             </select>
@@ -580,7 +576,7 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                                 ? (isDarkMode ? 'bg-green-700 text-green-200' : 'bg-green-200 text-green-900')
                                 : txn.status === 'pending'
                                 ? (isDarkMode ? 'bg-yellow-700 text-yellow-200' : 'bg-yellow-200 text-yellow-900')
-                                : (isDarkMode ? 'bg-slate-700 text-slate-300' : 'bg-slate-200 text-slate-700')
+                                : (isDarkMode ? 'bg-red-700 text-red-300' : 'bg-red-200 text-red-700')
                               }`}>
                               {txn.status}
                             </span>
@@ -676,7 +672,7 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                               className={`rounded px-2 py-1 ${isDarkMode ? 'bg-[#101c34] border-[#22304a] text-white' : 'bg-white border-slate-300 text-black'} border`}
                             >
                               <option value="pending">Pending</option>
-                              <option value="scheduled">Scheduled</option>
+                              {/* <option value="scheduled">Scheduled</option> */}
                               <option value="completed">Completed</option>
                               <option value="failed">Failed</option>
                             </select>
@@ -724,7 +720,7 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                                 ? (isDarkMode ? 'bg-green-700 text-green-200' : 'bg-green-200 text-green-900')
                                 : txn.status === 'pending'
                                 ? (isDarkMode ? 'bg-yellow-700 text-yellow-200' : 'bg-yellow-200 text-yellow-900')
-                                : (isDarkMode ? 'bg-slate-700 text-slate-300' : 'bg-slate-200 text-slate-700')
+                                : (isDarkMode ? 'bg-red-700 text-red-300' : 'bg-red-200 text-red-700')
                               }`}>
                               {txn.status}
                             </span>
@@ -820,7 +816,7 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                               className={`rounded px-2 py-1 ${isDarkMode ? 'bg-[#101c34] border-[#22304a] text-white' : 'bg-white border-slate-300 text-black'} border`}
                             >
                               <option value="pending">Pending</option>
-                              <option value="scheduled">Scheduled</option>
+                              {/* <option value="scheduled">Scheduled</option> */}
                               <option value="completed">Completed</option>
                               <option value="failed">Failed</option>
                             </select>
@@ -868,7 +864,7 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                                 ? (isDarkMode ? 'bg-green-700 text-green-200' : 'bg-green-200 text-green-900')
                                 : txn.status === 'pending'
                                 ? (isDarkMode ? 'bg-yellow-700 text-yellow-200' : 'bg-yellow-200 text-yellow-900')
-                                : (isDarkMode ? 'bg-slate-700 text-slate-300' : 'bg-slate-200 text-slate-700')
+                                : (isDarkMode ? 'bg-red-700 text-red-300' : 'bg-red-200 text-red-700')
                               }`}>
                               {txn.status}
                             </span>
@@ -978,7 +974,7 @@ const UserFullProfileModal = ({ user, onClose, onUserUpdate, isDarkMode = true }
                     >
                       <option value="">Select Status</option>
                       <option value="pending">Pending</option>
-                      <option value="scheduled">Scheduled</option>
+                      {/* <option value="scheduled">Scheduled</option> */}
                       <option value="completed">Completed</option>
                       <option value="failed">Failed</option>
                     </select>
